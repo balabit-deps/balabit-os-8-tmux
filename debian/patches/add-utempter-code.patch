@@ -1,0 +1,32 @@
+From: Nicholas Marriott <nicholas.marriott@gmail.com>
+Date: Wed, 18 Dec 2019 15:58:06 +0000
+Subject: Add back utempter code, reported by Peter Schellenbach.
+
+Origin: upstream, https://github.com/tmux/tmux/commit/54efe337993b5571728a09b247c7f39d493659a8
+Bug: https://github.com/tmux/tmux/issues/2022
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/tmux/+bug/1890406
+Last-Update: 2021-04-22
+---
+ spawn.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/spawn.c b/spawn.c
+index 348a4e5..43ae64b 100644
+--- a/spawn.c
++++ b/spawn.c
+@@ -424,6 +424,15 @@ spawn_pane(struct spawn_context *sc, char **cause)
+ 	_exit(1);
+ 
+ complete:
++#ifdef HAVE_UTEMPTER
++	if (~new_wp->flags & PANE_EMPTY) {
++		xasprintf(&cp, "tmux(%lu).%%%u", (long)getpid(), new_wp->id);
++		utempter_add_record(new_wp->fd, cp);
++		kill(getpid(), SIGCHLD);
++		free(cp);
++	}
++#endif
++
+ 	new_wp->pipe_off = 0;
+ 	new_wp->flags &= ~PANE_EXITED;
+ 

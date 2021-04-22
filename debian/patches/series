@@ -1,0 +1,4 @@
+platform-quirks.diff
+limit-lazy-resize-to-panes-in-attached-sessions-only.patch
+CVE-2020-27347.patch
+add-utempter-code.patch
