@@ -1,3 +1,12 @@
+tmux (3.0a-2ubuntu0.4) focal-security; urgency=medium
+
+  * SECURITY UPDATE: Null dereference
+    - debian/patches/CVE-2022-47016.patch: adds checks for NULL
+      returns from bufferevent_new in window.c.
+    - CVE-2022-47016
+
+ -- Leonidas Da Silva Barbosa <leo.barbosa@canonical.com>  Tue, 31 Jan 2023 10:55:07 -0300
+
 tmux (3.0a-2ubuntu0.3) focal; urgency=medium
 
   * Fix "tmux sessions do not show up with who, users, etc" (LP: #1890406)
